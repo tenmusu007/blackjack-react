@@ -1,13 +1,15 @@
 import React from 'react'
 import Btn from '../components/Btn'
-import CardHolder from '../components/CardHolder'
+import CardHolderPlayer from '../components/CardHolderPlayer'
+import { Header } from '../components/Header'
 
 function PlayField() {
     return (
-        <div>
-            <h1>PlayField</h1>
-            <CardHolder/>
+        <div className='playFieldContainer'>
+            <Header/>
             <Btn text={"back"} to="/" />
+            {/* <CardHolderPlayer/> */}
+            <CardHolderPlayer/>
         </div>
     )
 }

@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 
 function Btn(props) {
     return (
-        <div className='btn'>
+        <div className='btn' >
             <Link to={props.to}>
-                <div>{props.text}</div>
+                <div onClick={props.Onclick}>{props.text}</div>
             </Link>
         </div>
     )
