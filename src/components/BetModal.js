@@ -19,11 +19,12 @@ export const BetModal = (props) => {
             const balance = props.money - Number(event.target.value)
             // console.log("balance", balance);
             props.set(balance)
+            localStorage.setItem("balance",balance)
         }
     }
     return (
-        <div className='BtnModal'>
-            <p >Bet Your Money</p>
+        <div className={props.test?'BtnModal':"BtnModal move"}>
+            <p className='modaltext'>Bet Your Money</p>
             <p>Blance : {props.money}</p>
             <p>Bet : {betMoney}</p>
             <div className='betMoneyConatiner'>
