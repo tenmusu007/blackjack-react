@@ -2,10 +2,11 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import PlayField from '../pages/PlayField';
-import { useHandsContext } from '../useContext/handContext';
 import Btn from './Btn';
 import { BetModal } from './BetModal';
 import { BtnPlay } from './BtnPlay';
+import { useBetContext } from '../useContext/betContext';
+
 
 // let playerHandsArr = []
 // export const test =()=>{
@@ -43,8 +44,10 @@ const CardHolder=()=> {
     console.log("money", money);
 
     // modal////
-    const [test ,setTest]=useState(true)
-
+    const [modal ,setModal]=useState(true)
+    const {betMoney,setBetMoney} = useBetContext()
+    console.log("bet", betMoney);
+    
     useEffect(() => {
         axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
             .then(res => {
@@ -73,7 +76,7 @@ const CardHolder=()=> {
     const handlerShowHnds = () => {
         setNotification("all set")
         setShowModal(!showModal)
-        setTest(!test)
+        setModal(!modal)
         let keepCards = []
         let keepCpuCards = [cpuAllHands[0]]
         // console.log("first cpu", keepCpuCards);
@@ -130,18 +133,14 @@ const CardHolder=()=> {
                 updatePlayerHands(data,aceTotal)
                 }
             }
-                // console.log("return result");
         }else{
             const handsTotal = handsTotalCalculate(total)
             updatePlayerHands(data,handsTotal)
             if (handsTotal > 21) {
-                // console.log("return result");
                 return [setResult("You are busted"), setShowResult(!showResult),]
             }
             console.log(handsTotal);
         }
-        // console.log(total);
-
     }
 
 
@@ -216,10 +215,15 @@ const CardHolder=()=> {
         setShowResult(!showResult)
         console.log("comparison working");
         if (playerInfo.total === cpuTotal) {
+            setMoeny(money*1)
             setResult("Tie")
         } else if (playerInfo.total > cpuTotal || cpuTotal > 21) {
+            setMoeny(money + betMoney*2)
+            setModal(!modal)
             setResult("Player win")
         } else {
+            // setMoeny(money)
+            setModal(!modal)
             setResult("Player Lose")
         }
     }
@@ -246,7 +250,7 @@ const CardHolder=()=> {
     return (
         <div className='CardHolder'>
             {/* {showModal && <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setMoeny} money={money} test={test}/>} */}
-            <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setMoeny} money={money} test={test}/>
+            <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setMoeny} money={money} modal={modal}/>
             <div className='playerSection'>
                 <p>{notification}</p>
                 {/* <p>{money}</p> */}
