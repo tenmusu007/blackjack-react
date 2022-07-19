@@ -15,18 +15,16 @@ header {
     }
 
     .sideMenu {
+        position: fixed;
+        top: 30px;
+        // right: 0px;
         height: 100vh;
         width: 50%;
         background-color: #D0D2E4;
         opacity: 85%;
-        position: absolute;
         right: 0;
         transform: translateX(100%);
         transition: all 0.5s ease;
-        // &:hover{
-        //     transition: all 0.5s 0s ease;
-
-        // }
         p {
             font-weight: bold;
             margin: 20px;
@@ -40,5 +38,10 @@ header {
         position: absolute;
         right: 0;
         transform: none;
+        z-index: 2;
+        p {
+            font-weight: bold;
+            margin: 20px;
+        }
     }
 }

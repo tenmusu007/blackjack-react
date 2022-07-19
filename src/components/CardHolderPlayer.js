@@ -4,10 +4,16 @@ import axios from 'axios';
 import PlayField from '../pages/PlayField';
 import { useHandsContext } from '../useContext/handContext';
 import Btn from './Btn';
+import { BetModal } from './BetModal';
+import { BtnPlay } from './BtnPlay';
 
 // let playerHandsArr = []
-function CardHolder() {
+// export const test =()=>{
+//     console.log("tets");
+// }
+const CardHolder=()=> {
     const [notification, setNotification] = useState("not set")
+    const [showModal, setShowModal] = useState(true)
     const [playerAllHands, setPlayerAllHands] = useState(" ")
     const [displayHands, setdisplayHands] = useState()
     const [playerInfo, setplayerInfo] = useState(
@@ -27,10 +33,14 @@ function CardHolder() {
     // result/////////
     const [result, setResult] = useState()
     const [showResult, setShowResult] = useState(false)
-    console.log("cpu", cpuInfo);
-    console.log("Info", playerInfo);
+    // console.log("cpu", cpuInfo);
+    // console.log("Info", playerInfo);
     // console.log("Cpu", cpuAllHands);
     // console.log("player",playerAllHands);
+
+    // money/////
+    const [money, setMoeny]=useState(1000)
+    console.log("money", money);
     useEffect(() => {
         axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
             .then(res => {
@@ -54,11 +64,11 @@ function CardHolder() {
             }
         })
         setPlayerAllHands(handsValue)
-
     }
 
     const handlerShowHnds = () => {
         setNotification("all set")
+        setShowModal(!showModal)
         let keepCards = []
         let keepCpuCards = [cpuAllHands[0]]
         // console.log("first cpu", keepCpuCards);
@@ -121,7 +131,7 @@ function CardHolder() {
             updatePlayerHands(data,handsTotal)
             if (handsTotal > 21) {
                 // console.log("return result");
-                return [setResult("You are busted"), setShowResult(!showResult)]
+                return [setResult("You are busted"), setShowResult(!showResult),]
             }
             console.log(handsTotal);
         }
@@ -141,6 +151,7 @@ function CardHolder() {
                 return { ...card, value: Number(card.value) }
             }
         })
+        
         setcpuAllHands(handsValue)
     }
     const caculateCpuTotal = (data) => {
@@ -228,21 +239,23 @@ function CardHolder() {
     }
 
     return (
-        <div>
+        <div className='CardHolder'>
+            {showModal && <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setMoeny} money={money}/>}
             <div className='playerSection'>
+                {!showResult && <p>{notification}</p>}
                 <p className='totalNumber'>Total {cpuInfo.total}</p>
                 <div className="cardConatiner">
                     {displayCpuHands}
                 </div>
-                <p>{notification}</p>
                 <p className='totalNumber'>Total {playerInfo.total}</p>
                 <div className="cardConatiner">
                     {displayHands}
                 </div>
                 <div className='btnConatiner'>
-                    <div className='playBtn' onClick={handlerShowHnds}>set</div>
-                    {!showResult &&<div className='playBtn' onClick={handlerDraw}>draw</div>}
-                    {!showResult &&<div className='playBtn' onClick={handlerStand}>stand</div>}
+                    {/* <div className='playBtn' onClick={handlerShowHnds}>set</div> */}
+                    {/* <BtnPlay className={"playBtn"} onClick={handlerShowHnds} text={"set"}/> */}
+                    {!showResult &&<BtnPlay className={"playBtn"} onClick={handlerDraw} text={"draw"}/>}
+                    {!showResult &&<BtnPlay className={"playBtn"} onClick={handlerStand} text={"stand"}/>}
                 </div>
             </div>
             {showResult &&

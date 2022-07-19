@@ -11,11 +11,11 @@ export const Header = () => {
             <Icon icon="clarity:menu-line" className='menuIcon' onClick={handlerMenu} />
         </div>
         {/* {menuTab && */}
-            <span className={menuTab?"sideMenu":"sideMenu active"}> 
+            <div className={menuTab?"sideMenu":"sideMenu active"}> 
                 <p className='menu'>Home</p>
                 <p className='setting'>Setting</p>
                 <p className='setting'>Setting</p>
-            </span>
+            </div>
         {/* } */}
     </header>
   )
