@@ -1,8 +1,11 @@
 import React, { useRef, useState } from 'react'
 import { BtnPlay } from './BtnPlay'
+import { useBetContext } from '../useContext/betContext';
+
 
 export const BetModal = (props) => {
-    const [betMoney, setBetMoney]=useState()
+    const {betMoney,setBetMoney} = useBetContext()
+    // const [betMoney, setBetMoney]=useState()
     const [preMoney, setPreMoney]=useState([])
     const handlerBetMoney = (event) => {
         console.log(event.target.value);
@@ -12,6 +15,7 @@ export const BetModal = (props) => {
             const maxAmount =preMoney.reduce(function(a,b){
                 return Math.max(a,b);
             });
+            console.log(maxAmount);
             props.set(maxAmount)
         }else{
             console.log(preMoney);
@@ -23,7 +27,7 @@ export const BetModal = (props) => {
         }
     }
     return (
-        <div className={props.test?'BtnModal':"BtnModal move"}>
+        <div className={props.modal?'BtnModal':"BtnModal move"}>
             <p className='modaltext'>Bet Your Money</p>
             <p>Blance : {props.money}</p>
             <p>Bet : {betMoney}</p>

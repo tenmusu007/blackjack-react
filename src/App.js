@@ -6,20 +6,20 @@ import { Routes, Route } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import PlayField from './pages/PlayField';
 import Setting from './pages/Setting';
-import { HandsProvider } from './useContext/handContext';
+import { BetProvider } from './useContext/betContext';
 
 
 function App() {
   return (
-    // <HandsProvider>
+    <BetProvider>
       <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/playfield" element={<PlayField />} />
+            <Route path="/playfield" element={<PlayField />}  />
             <Route path="/setting" element={<Setting />} />
           </Routes>
       </BrowserRouter>
-    // </HandsProvider>
+    </BetProvider>
 
   )
 }
