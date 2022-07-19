@@ -2,11 +2,8 @@ import React, { useRef, useState } from 'react'
 import { BtnPlay } from './BtnPlay'
 
 export const BetModal = (props) => {
-    // console.log(props.useState);
     const [betMoney, setBetMoney]=useState()
     const [preMoney, setPreMoney]=useState([])
-    // const betmoney = useRef()
-    // console.log(betmoney);
     const handlerBetMoney = (event) => {
         console.log(event.target.value);
         setBetMoney(Number(event.target.value))
@@ -18,24 +15,18 @@ export const BetModal = (props) => {
             props.set(maxAmount)
         }else{
             console.log(preMoney);
-            setPreMoney([...preMoney, props.money])
-            // preMoney.push(props.money)
-            // console.log("btn side", props.money);
+            setPreMoney([...preMoney, props.money]);
             const balance = props.money - Number(event.target.value)
             // console.log("balance", balance);
             props.set(balance)
         }
     }
-    // const [money, setMoney] =useState(betmoney.current.value)
-    // console.log(props.onClick);
     return (
         <div className='BtnModal'>
             <p >Bet Your Money</p>
-            {/* <p >Blance : {money}</p> */}
             <p>Blance : {props.money}</p>
             <p>Bet : {betMoney}</p>
             <div className='betMoneyConatiner'>
-                {/* <input type="number" className='betMoney' ref={betmoney} /> */}
                 <form onChange={handlerBetMoney}>
                     <select>
                         <option value="0" key="0" >0</option>
