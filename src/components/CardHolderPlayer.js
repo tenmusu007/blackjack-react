@@ -41,6 +41,10 @@ const CardHolder=()=> {
     // money/////
     const [money, setMoeny]=useState(1000)
     console.log("money", money);
+
+    // modal////
+    const [test ,setTest]=useState(true)
+
     useEffect(() => {
         axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
             .then(res => {
@@ -69,6 +73,7 @@ const CardHolder=()=> {
     const handlerShowHnds = () => {
         setNotification("all set")
         setShowModal(!showModal)
+        setTest(!test)
         let keepCards = []
         let keepCpuCards = [cpuAllHands[0]]
         // console.log("first cpu", keepCpuCards);
@@ -240,9 +245,11 @@ const CardHolder=()=> {
 
     return (
         <div className='CardHolder'>
-            {showModal && <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setMoeny} money={money}/>}
+            {/* {showModal && <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setMoeny} money={money} test={test}/>} */}
+            <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setMoeny} money={money} test={test}/>
             <div className='playerSection'>
-                {!showResult && <p>{notification}</p>}
+                <p>{notification}</p>
+                {/* <p>{money}</p> */}
                 <p className='totalNumber'>Total {cpuInfo.total}</p>
                 <div className="cardConatiner">
                     {displayCpuHands}

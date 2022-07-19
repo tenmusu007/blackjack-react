@@ -7,8 +7,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
+    transition: all 2s linear;
+    // -webkit-transform: translate(-50%, -50%);
+    // -ms-transform: translate(-50%, -50%);
+    // transform: translateX(0);
     p{
         padding: 5px;
         text-align: center;
@@ -30,6 +32,54 @@
     }
 
     .btnModal {
+        width: 60px;
+        padding: 5px 5px;
+        border-radius: 10px;
+        text-decoration: none;
+        background-color: rgb(252, 125, 76);
+        text-align: center;
+        font-size: 15px;
+        margin: 0 auto;
+    }
+}
+.move{
+    width: 150px;
+    height: 80px;
+    background-color:lightblue;
+    position: absolute;
+    // top: 50%;
+    // left: 50%;
+    transform: translate(15%, -400%);
+    // transform: scale(0.5)
+    // -webkit-transform: translate(-50%, -50%);
+    // -ms-transform: translate(-50%, -50%);
+    // transform: translateX(0);
+    .modaltext{
+        display: none;
+    }
+    p{
+        padding: 5px;
+        text-align: center;
+    }
+    .betMoneyConatiner {
+        display: none;
+        width: 50%;
+        margin: 0 auto;
+        // margin-top: 15px;
+
+        .betMoney {
+            width: 100%;
+            margin: 0 auto;
+        }
+    }
+
+    .btnModalConatiner {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btnModal {
+        display: none;
         width: 60px;
         padding: 5px 5px;
         border-radius: 10px;
