@@ -1,5 +1,5 @@
 .btn {
-  width: 50px;
+  width: 60px;
   padding: 5px 5px;
   background-color: lightblue;
   border-radius: 10px;
@@ -19,8 +19,24 @@
   justify-content: space-between;
 }
 .playerSection .conatinerCard .cardImg {
-  width: 100px;
-  height: 150px;
+  width: 65px;
+  height: 90px;
+}
+
+.HeaderContainer {
+  background-color: #D0D2E4;
+}
+
+.menuIcon {
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.title {
+  text-align: center;
+  padding-top: 2rem;
+  font-weight: bold;
 }
 
 * {
