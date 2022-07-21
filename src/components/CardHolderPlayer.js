@@ -8,14 +8,10 @@ import { BtnPlay } from './BtnPlay';
 import { useBetContext } from '../useContext/betContext';
 
 
-// let playerHandsArr = []
-// export const test =()=>{
-    //     console.log("tets");
-    // }
-let testArr =[]
 const CardHolder=()=> {
     const [notification, setNotification] = useState("not set")
     const [showModal, setShowModal] = useState(true)
+    const [deckId, setdeckID] = useState()
     const [playerAllHands, setPlayerAllHands] = useState(" ")
     const [displayHands, setdisplayHands] = useState()
     const [playerInfo, setplayerInfo] = useState(
@@ -48,6 +44,34 @@ const CardHolder=()=> {
     const [modal ,setModal]=useState(true)
     const {betMoney,setBetMoney} = useBetContext()
     console.log("bet", betMoney);
+    // useEffect(() => {
+    //     axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
+    //         .then(res => {setdeckID(res.data.deck_id)
+                
+    //         })
+    // }, [])
+    useEffect(() => {
+        axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
+            .then(res => {
+                axios.get(`https://www.deckofcardsapi.com/api/deck/${res.data.deck_id}/draw/?count=6`)
+                .then(data => {
+                    addValueToCpuHands(data.data.cards)
+                    axios.get(`https://www.deckofcardsapi.com/api/deck/${res.data.deck_id}/draw/?count=6`)
+                        .then(cpuData => addValueToPlayerHands(cpuData.data.cards))
+                })
+                
+            })
+    }, [])
+    // const test =()=>{
+    //     axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
+    //                 .then(data => {
+    //                     addValueToCpuHands(data.data.cards)
+    //                     axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
+    //                         .then(cpuData => addValueToPlayerHands(cpuData.data.cards))
+    //                 })
+    // }
+    
+
     const handlerShowHnds=()=>{
         // useEffect(() => {
             axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
@@ -238,11 +262,14 @@ const CardHolder=()=> {
             setMoeny(money*1)
             setResult("Tie")
         } else if (playerInfo.total > cpuTotal || cpuTotal > 21) {
+            console.log("result money ",money + betMoney*2);
             setMoeny(money + betMoney*2)
             setModal(!modal)
             setResult("Player win")
         } else {
             // setMoeny(money)
+            console.log("result money ",money - betMoney);
+            setMoeny(money - betMoney)
             setModal(!modal)
             setResult("Player Lose")
         }
