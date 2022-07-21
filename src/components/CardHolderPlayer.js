@@ -33,8 +33,8 @@ const CardHolder=()=> {
     const [showResult, setShowResult] = useState(false)
     // console.log("cpu", cpuInfo);
     // console.log("Info", playerInfo);
-    // console.log("Cpu", cpuAllHands);
-    // console.log("player",playerAllHands);
+    console.log("Cpu", cpuAllHands);
+    console.log("player",playerAllHands);
 
     // money/////
     const [money, setMoeny]=useState(1000)
@@ -71,50 +71,81 @@ const CardHolder=()=> {
     //                 })
     // }
     
+
+    const handlerShowHnds=()=>{
+        // useEffect(() => {
+            axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
+            .then(res => {
+                axios.get(`https://www.deckofcardsapi.com/api/deck/${res.data.deck_id}/draw/?count=6`)
+                .then(data => {
+                    test(data.data.cards)
+                    axios.get(`https://www.deckofcardsapi.com/api/deck/${res.data.deck_id}/draw/?count=6`)
+                    .then(cpuData => test(cpuData.data.cards))
+                    // .then(data => {test()})
+                })
+            })
+        // },)
+    }
     // player part//////////
-    const addValueToPlayerHands = (obj) => {
+    // const addValueToPlayerHands = (obj) => {
+    //     const handsValue = obj.map((card) => {
+    //         if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
+    //             return { ...card, value: 10 }
+    //         } else if (card.value === "ACE") {
+    //             return { ...card, value: 11}
+    //         } else {
+    //             return { ...card, value: Number(card.value) }
+    //         }
+    //     })
+    //     setPlayerAllHands(handsValue)
+    // }
+
+    const test = (obj) => {
         const handsValue = obj.map((card) => {
             if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
                 return { ...card, value: 10 }
             } else if (card.value === "ACE") {
-                return { ...card, value: 11}
+                return { ...card, value: 1 }
             } else {
                 return { ...card, value: Number(card.value) }
             }
         })
-        setPlayerAllHands(handsValue)
-    }
-
-    const handlerShowHnds = () => {
-        setNotification("all set")
-        setShowModal(!showModal)
-        setModal(!modal)
-        let keepCards = []
-        let keepCpuCards = [cpuAllHands[0]]
-        // console.log("first cpu", keepCpuCards);
-        const selectFirstHands = () => {
-            for (let i = 0; i < 2; i++) {
-                // console.log(playerAllHands[i]);
-                keepCards.push(playerAllHands[i])
+        // オブジェクト（配列）で両プレイヤーを管理
+        testArr.push(handsValue);
+        console.log("arr",testArr);
+        console.log("check",handsValue);
+        setNotification("all set");
+        setShowModal(!showModal);
+        setModal(!modal);
+        if(testArr.length > 0){
+            setcpuAllHands(handsValue);
+            let keepCards = []
+            const selectFirstHands = () => {
+                for (let i = 0; i < 2; i++) {
+                    // console.log(playerAllHands[i]);
+                    keepCards.push(testArr[1][i])
+                }
+                // console.log("player",keepCards);
+                addCardToHands(keepCards)
             }
-            // console.log("player",keepCards);
-            addCardToHands(keepCards)
-            addCardToHands(keepCpuCards)
+            const addCardToHands = (cards) => {
+                    // console.log("player");
+                    setdisplayHands(renderHands(cards))
+                    caculateTotal(keepCards)             
+                }
+                
+                selectFirstHands()
+            }else{
+            setPlayerAllHands(handsValue);
+                let keepCpuCards = [testArr[0][0]]
+                console.log("first cpu", keepCpuCards);
+                const addCardToHands = (cards) => {
+                    setdisplayCpuHands(renderHands(cards))
+                    caculateCpuTotal(keepCpuCards)
+                }
+                addCardToHands(keepCpuCards)
         }
-        const addCardToHands = (cards) => {
-            if (cards.length > 1) {
-                // console.log("player");
-                setdisplayHands(renderHands(cards))
-                caculateTotal(keepCards)
-            } else {
-                // console.log("cpu");
-                setdisplayCpuHands(renderHands(cards))
-                caculateCpuTotal(keepCpuCards)
-            }
-            // caculateTotal(keepCpuCards)
-
-        }
-        selectFirstHands()
+        
     }
 
     const handlerDraw = () => {
@@ -157,19 +188,19 @@ const CardHolder=()=> {
 
 
     // cpu/////////////////
-    const addValueToCpuHands = (obj) => {
-        const handsValue = obj.map((card) => {
-            if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
-                return { ...card, value: 10 }
-            } else if (card.value === "ACE") {
-                return { ...card, value: 1 }
-            } else {
-                return { ...card, value: Number(card.value) }
-            }
-        })
+    // const addValueToCpuHands = (obj) => {
+    //     const handsValue = obj.map((card) => {
+    //         if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
+    //             return { ...card, value: 10 }
+    //         } else if (card.value === "ACE") {
+    //             return { ...card, value: 1 }
+    //         } else {
+    //             return { ...card, value: Number(card.value) }
+    //         }
+    //     })
         
-        setcpuAllHands(handsValue)
-    }
+    //     setcpuAllHands(handsValue)
+    // }
     const caculateCpuTotal = (data) => {
         // console.log(data);
         const total = data.map((element) => {
@@ -213,8 +244,9 @@ const CardHolder=()=> {
 
     // common part////
     const renderHands = (cards) => {
+        console.log(cards);
         const html = cards.map((value, index) => {
-            // console.log("map", value);
+            console.log("map", value);
             return (
                 <div key={index} >
                     <img src={value.image} alt="" className='cardImg' />
