@@ -12,6 +12,7 @@ const CardHolder=()=> {
     const [notification, setNotification] = useState("not set")
     const [showModal, setShowModal] = useState(true)
     const [deckId, setdeckID] = useState()
+    const [reLoad, setReLoad] =useState()
     const [playerAllHands, setPlayerAllHands] = useState(" ")
     const [displayHands, setdisplayHands] = useState()
     const [playerInfo, setplayerInfo] = useState(
@@ -31,19 +32,19 @@ const CardHolder=()=> {
     // result/////////
     const [result, setResult] = useState()
     const [showResult, setShowResult] = useState(false)
-    // console.log("cpu", cpuInfo);
-    // console.log("Info", playerInfo);
-    console.log("Cpu", cpuAllHands);
-    console.log("player",playerAllHands);
+    console.log("cpu", cpuInfo);
+    console.log("Info", playerInfo);
+    // console.log("Cpu", cpuAllHands);
+    // console.log("player",playerAllHands);
 
     // money/////
     const [money, setMoeny]=useState(1000)
-    console.log("money", money);
+    // console.log("money", money);
 
     // modal////
     const [modal ,setModal]=useState(true)
     const {betMoney,setBetMoney} = useBetContext()
-    console.log("bet", betMoney);
+    // console.log("bet", betMoney);
     // useEffect(() => {
     //     axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
     //         .then(res => {setdeckID(res.data.deck_id)
@@ -52,111 +53,98 @@ const CardHolder=()=> {
     // }, [])
     useEffect(() => {
         axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
-            .then(res => {
-                axios.get(`https://www.deckofcardsapi.com/api/deck/${res.data.deck_id}/draw/?count=6`)
-                .then(data => {
-                    addValueToCpuHands(data.data.cards)
-                    axios.get(`https://www.deckofcardsapi.com/api/deck/${res.data.deck_id}/draw/?count=6`)
-                        .then(cpuData => addValueToPlayerHands(cpuData.data.cards))
-                })
-                
-            })
+            .then(res => {setdeckID(res.data.deck_id)})
     }, [])
-    // const test =()=>{
+    // useEffect(() => {
     //     axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
-    //                 .then(data => {
-    //                     addValueToCpuHands(data.data.cards)
-    //                     axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
-    //                         .then(cpuData => addValueToPlayerHands(cpuData.data.cards))
-    //                 })
-    // }
-    
-
-    const handlerShowHnds=()=>{
-        // useEffect(() => {
-            axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
-            .then(res => {
-                axios.get(`https://www.deckofcardsapi.com/api/deck/${res.data.deck_id}/draw/?count=6`)
-                .then(data => {
-                    test(data.data.cards)
-                    axios.get(`https://www.deckofcardsapi.com/api/deck/${res.data.deck_id}/draw/?count=6`)
-                    .then(cpuData => test(cpuData.data.cards))
-                    // .then(data => {test()})
-                })
-            })
-        // },)
-    }
-    // player part//////////
-    // const addValueToPlayerHands = (obj) => {
-    //     const handsValue = obj.map((card) => {
-    //         if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
-    //             return { ...card, value: 10 }
-    //         } else if (card.value === "ACE") {
-    //             return { ...card, value: 11}
-    //         } else {
-    //             return { ...card, value: Number(card.value) }
-    //         }
+    //     .then(data => {
+    //         addValueToCpuHands(data.data.cards)
     //     })
-    //     setPlayerAllHands(handsValue)
-    // }
-
-    const test = (obj) => {
+    //     axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
+    //         .then(cpuData => addValueToPlayerHands(cpuData.data.cards))
+    // }, [deckId])
+    const handlerShowHnds=()=>{
+        if(money === 0){
+            return alert("You are Loser")
+        }
+        setShowResult(false)
+        axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
+        .then(data => {
+            player(data.data.cards)
+            axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
+            .then(cpuData => cpu(cpuData.data.cards))
+        })
+        
+    }
+    
+    // set all cards for player
+    const addValueToPlayerHands = (obj) => {
         const handsValue = obj.map((card) => {
             if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
                 return { ...card, value: 10 }
             } else if (card.value === "ACE") {
-                return { ...card, value: 1 }
+                return { ...card, value: 11}
             } else {
                 return { ...card, value: Number(card.value) }
             }
         })
-        // オブジェクト（配列）で両プレイヤーを管理
-        testArr.push(handsValue);
-        console.log("arr",testArr);
-        console.log("check",handsValue);
-        setNotification("all set");
-        setShowModal(!showModal);
-        setModal(!modal);
-        if(testArr.length > 0){
-            setcpuAllHands(handsValue);
-            let keepCards = []
-            const selectFirstHands = () => {
-                for (let i = 0; i < 2; i++) {
-                    // console.log(playerAllHands[i]);
-                    keepCards.push(testArr[1][i])
-                }
-                // console.log("player",keepCards);
-                addCardToHands(keepCards)
-            }
-            const addCardToHands = (cards) => {
-                    // console.log("player");
-                    setdisplayHands(renderHands(cards))
-                    caculateTotal(keepCards)             
-                }
-                
-                selectFirstHands()
-            }else{
-            setPlayerAllHands(handsValue);
-                let keepCpuCards = [testArr[0][0]]
-                console.log("first cpu", keepCpuCards);
-                const addCardToHands = (cards) => {
-                    setdisplayCpuHands(renderHands(cards))
-                    caculateCpuTotal(keepCpuCards)
-                }
-                addCardToHands(keepCpuCards)
-        }
-        
+        setPlayerAllHands(handsValue)
+        return handsValue
     }
-
+        // set all cards for cpu
+        const addValueToCpuHands = (obj) => {
+            const handsValue = obj.map((card) => {
+                if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
+                    return { ...card, value: 10 }
+                } else if (card.value === "ACE") {
+                    return { ...card, value: 1 }
+                } else {
+                    return { ...card, value: Number(card.value) }
+                }
+            })
+            setcpuAllHands(handsValue)
+            return handsValue
+        }
+    // showing firts player cards
+    const player =(obj)=>{
+        let keepCards = []
+        const playerArr = addValueToPlayerHands(obj)
+        const selectFirstHands = () => {
+            for (let i = 0; i < 2; i++) {
+                // console.log(playerAllHands[i]);
+                keepCards.push(playerArr[i])
+            }
+            // console.log("player",keepCards);
+            addCardToHands(keepCards)
+        }
+        const addCardToHands = (cards) => {
+            setdisplayHands(renderHands(cards))
+            caculateTotal(keepCards)
+        }
+        selectFirstHands()
+    }
+    // showing first cpu cards
+    const cpu = (obj) => {
+        const cpuArr = addValueToCpuHands(obj)
+        setNotification("all set")
+        setShowModal(!showModal)
+        setModal(!modal)
+        let keepCpuCards = [cpuArr[0]]
+        // console.log("first cpu", keepCpuCards);
+        const addCardToHands = (cards) => {
+            setdisplayCpuHands(renderHands(cards))
+            caculateCpuTotal(keepCpuCards)                    
+        }
+        addCardToHands(keepCpuCards)
+    }
+// when plauer clicked darw Btn
     const handlerDraw = () => {
         console.log(playerInfo.hands);
         const hands = [...playerInfo.hands, playerAllHands[playerInfo.hands.length]]
         caculateTotal(hands)
-        // let hands =playerHands
-        // console.log(hands);
         setdisplayHands(renderHands(hands))
     }
-
+// caculateTing total for player
     const caculateTotal = (data) => {
         const total = data.map((element) => {
             return element.value
@@ -171,7 +159,7 @@ const CardHolder=()=> {
                         hands: data,
                         total: aceTotal
                     })
-                    return [setResult("You are busted"), setShowResult(!showResult)]
+                    return [setResult("You are busted"), setMoeny(money - betMoney), setShowResult(!showResult), setModal(!modal)]
                 }else{
                 updatePlayerHands(data,aceTotal)
                 }
@@ -180,27 +168,12 @@ const CardHolder=()=> {
             const handsTotal = handsTotalCalculate(total)
             updatePlayerHands(data,handsTotal)
             if (handsTotal > 21) {
-                return [setResult("You are busted"), setShowResult(!showResult),]
+            return [setResult("You are busted"), setMoeny(money - betMoney), setShowResult(!showResult), setModal(!modal)]
             }
             console.log(handsTotal);
         }
     }
-
-
-    // cpu/////////////////
-    // const addValueToCpuHands = (obj) => {
-    //     const handsValue = obj.map((card) => {
-    //         if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
-    //             return { ...card, value: 10 }
-    //         } else if (card.value === "ACE") {
-    //             return { ...card, value: 1 }
-    //         } else {
-    //             return { ...card, value: Number(card.value) }
-    //         }
-    //     })
-        
-    //     setcpuAllHands(handsValue)
-    // }
+// caculateTing total for player
     const caculateCpuTotal = (data) => {
         // console.log(data);
         const total = data.map((element) => {
@@ -209,17 +182,16 @@ const CardHolder=()=> {
         const handsTotal = total.reduce((a, b) => {
             return a + b
         })
-        // console.log("value", handsValue);
-        // console.log("total",handsTotal);
-        if (cpuInfo.hands.length === 0) {
+        // if (cpuInfo.hands.length === 0) {
             // console.log("test");
             setCpuInfo({
                 hands: data,
                 total: handsTotal
             })
-        }
+        // }
     }
-    const handlerStand = async () => {
+// when player clicked stand Btn
+    const handlerStand =()=> {
         const keepHands = cpuInfo.hands
         const currentTotal = cpuInfo.total
         for (let i = 1; currentTotal < 17; i++) {
@@ -244,9 +216,8 @@ const CardHolder=()=> {
 
     // common part////
     const renderHands = (cards) => {
-        console.log(cards);
         const html = cards.map((value, index) => {
-            console.log("map", value);
+            // console.log("map", value);
             return (
                 <div key={index} >
                     <img src={value.image} alt="" className='cardImg' />
@@ -260,6 +231,7 @@ const CardHolder=()=> {
         console.log("comparison working");
         if (playerInfo.total === cpuTotal) {
             setMoeny(money*1)
+            setModal(!modal)
             setResult("Tie")
         } else if (playerInfo.total > cpuTotal || cpuTotal > 21) {
             console.log("result money ",money + betMoney*2);
@@ -329,22 +301,4 @@ const CardHolder=()=> {
 
 export default CardHolder
 
-
-
-        // const handsTotal =(total)=>{
-        //     let testArr
-        //     const sum =0
-        //     for (const key in total) {
-        //         if (total[key] === []) {
-        //             testArr =total[key] 
-        //         }else{
-        //             sum =sum + total[key]
-        //         }
-        //     }
-        //     let aceArr =[]
-        //     for(const i  in testArr){
-        //         let aceTotal = testArr[i] + sum
-        //         aceArr.push(aceTotal)
-        //     }
-        // }
 

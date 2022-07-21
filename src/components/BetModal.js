@@ -9,7 +9,7 @@ export const BetModal = (props) => {
     const [preMoney, setPreMoney]=useState([])
     const [balance, setbalance]=useState(props.money)
     // console.log("now",preMoney);
-    console.log("now",props.money);
+    // console.log("now",props.money);
     // for(let i=0; i < 1; i++){
         //     setPreMoney(props.money)
         // }
@@ -17,7 +17,8 @@ export const BetModal = (props) => {
     //     balanceList.push(props.money)
     // console.log(balanceList);
     const handlerBetMoney = (event) => {
-        console.log(event.target.value);
+        console.log(props.money);
+        // console.log(event.target.value);
         setBetMoney(Number(event.target.value))
         const balance = props.money - Number(event.target.value)
         if(event.target.value === "0"){
@@ -46,16 +47,19 @@ export const BetModal = (props) => {
             <p>Blance : {balance}</p>
             <p>Bet : {betMoney}</p>
             <div className='betMoneyConatiner'>
-                <form onChange={handlerBetMoney}>
-                    <select>
+                <form className='betBar' onChange={handlerBetMoney}>
+                    {/* <select>
                         <option value="0" key="0" >0</option>
                         <option value="100" key="100">100</option>
                         <option value="200" key="200">200</option>
-                    </select>
+                        <option value="1000" key="1000">1000</option>
+                    </select> */}
+                    <input  type="range" min="1" max={props.money}  />
                 </form>
             </div>
             <div className='btnModalConatiner'>
                 <BtnPlay className={"btnModal"} onClick={() => props.onClick()} text={props.text} />
+                {/* <BtnPlay className={"btnModal"} onClick={() => props.onClick()} text={props.text} /> */}
             </div>
         </div>
     )
