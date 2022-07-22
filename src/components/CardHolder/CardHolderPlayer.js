@@ -1,18 +1,15 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import PlayField from '../pages/PlayField';
-import Btn from './Btn';
-import { BetModal } from './BetModal';
-import { BtnPlay } from './BtnPlay';
-import { useBetContext } from '../useContext/betContext';
+import { BetModal } from '../BetModal/BetModal';
+import { BtnPlay } from '../BtnPlay';
+import { useBetContext } from '../../useContext/betContext';
 
 
 const CardHolder=()=> {
     const [notification, setNotification] = useState("not set")
     const [showModal, setShowModal] = useState(true)
     const [deckId, setdeckID] = useState()
-    const [reLoad, setReLoad] =useState()
     const [playerAllHands, setPlayerAllHands] = useState(" ")
     const [displayHands, setdisplayHands] = useState()
     const [playerInfo, setplayerInfo] = useState(
@@ -32,8 +29,8 @@ const CardHolder=()=> {
     // result/////////
     const [result, setResult] = useState()
     const [showResult, setShowResult] = useState(false)
-    console.log("cpu", cpuInfo);
-    console.log("Info", playerInfo);
+    // console.log("cpu", cpuInfo);
+    // console.log("Info", playerInfo);
     // console.log("Cpu", cpuAllHands);
     // console.log("player",playerAllHands);
 
@@ -45,26 +42,14 @@ const CardHolder=()=> {
     const [modal ,setModal]=useState(true)
     const {betMoney,setBetMoney} = useBetContext()
     // console.log("bet", betMoney);
-    // useEffect(() => {
-    //     axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
-    //         .then(res => {setdeckID(res.data.deck_id)
-                
-    //         })
-    // }, [])
+
     useEffect(() => {
         axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
             .then(res => {setdeckID(res.data.deck_id)})
     }, [])
-    // useEffect(() => {
-    //     axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
-    //     .then(data => {
-    //         addValueToCpuHands(data.data.cards)
-    //     })
-    //     axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
-    //         .then(cpuData => addValueToPlayerHands(cpuData.data.cards))
-    // }, [deckId])
+
     const handlerShowHnds=()=>{
-        if(money === 0){
+        if(money === 0 || betMoney === 0){
             return alert("You are Loser")
         }
         setShowResult(false)
@@ -91,8 +76,8 @@ const CardHolder=()=> {
         setPlayerAllHands(handsValue)
         return handsValue
     }
-        // set all cards for cpu
-        const addValueToCpuHands = (obj) => {
+    // set all cards for cpu
+    const addValueToCpuHands = (obj) => {
             const handsValue = obj.map((card) => {
                 if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
                     return { ...card, value: 10 }
@@ -104,7 +89,7 @@ const CardHolder=()=> {
             })
             setcpuAllHands(handsValue)
             return handsValue
-        }
+    }
     // showing firts player cards
     const player =(obj)=>{
         let keepCards = []
@@ -268,11 +253,8 @@ const CardHolder=()=> {
 
     return (
         <div className='CardHolder'>
-            {/* {showModal && <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setMoeny} money={money} test={test}/>} */}
             <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setMoeny} money={money} modal={modal}/>
             <div className='playerSection'>
-                <p>{notification}</p>
-                {/* <p>{money}</p> */}
                 <p className='totalNumber'>Total {cpuInfo.total}</p>
                 <div className="cardConatiner">
                     {displayCpuHands}

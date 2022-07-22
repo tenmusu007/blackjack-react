@@ -1,0 +1,125 @@
+@use '../../scss/var.scss' as v;
+@mixin desktop {
+    @media screen and (min-width:(v.$cp)) {
+        @content;
+    }
+}
+.CardHolder {
+    .playBtn {
+        width: 60px;
+        padding: 5px 5px;
+        border-radius: 10px;
+        text-decoration: none;
+        background-color: rgb(252, 125, 76);
+        text-align: center;
+        font-size: 15px;
+        margin: 10px;
+    }
+    .playerSection {
+        margin-top: 100px;
+        .totalNumber {
+            color: white;
+            font-size: 20px;
+            text-align: center;
+        }
+        .cardConatiner {
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            margin: 10px auto 0 auto;
+            .cardImg {
+                width: 65px;
+                height: 90px;
+            }
+        }
+        .btnConatiner {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            .playBtn {
+                width: 60px;
+                padding: 5px 5px;
+                border-radius: 10px;
+                text-decoration: none;
+                background-color: rgb(252, 125, 76);
+                text-align: center;
+                font-size: 15px;
+                margin: 10px;
+            }
+        }
+    }
+    .resultModal {
+        width: 45%;
+        height: 100px;
+        margin: 0 auto;
+        border-radius: 100px;
+        text-align: center;
+        font-style: italic;
+        background-color: #F6F6E9;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+.CardHolder {
+    @include desktop {
+        .playBtn {
+            width: 60px;
+            padding: 5px 5px;
+            border-radius: 10px;
+            text-decoration: none;
+            background-color: rgb(252, 125, 76);
+            text-align: center;
+            font-size: 15px;
+            margin: 10px;
+        }
+        .playerSection {
+            margin-top: 100px;
+            .totalNumber {
+                color: white;
+                font-size: 20px;
+                text-align: center;
+            }
+            .cardConatiner {
+                width: 40%;
+                display: flex;
+                justify-content: space-between;
+                margin-top: 30px;
+                .cardImg {
+                    width: 130px;
+                    height: 175px;
+                }
+            }
+            .btnConatiner {
+                display: flex;
+                justify-content: center;
+                margin-top: 50px;
+                .playBtn {
+                    width: 60px;
+                    padding: 5px 5px;
+                    border-radius: 10px;
+                    text-decoration: none;
+                    background-color: rgb(252, 125, 76);
+                    text-align: center;
+                    font-size: 15px;
+                    margin: 10px;
+                }
+            }
+        }
+        .resultModal {
+            width: 45%;
+            height: 100px;
+            margin: 0 auto;
+            border-radius: 100px;
+            text-align: center;
+            font-style: italic;
+            background-color: #F6F6E9;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}

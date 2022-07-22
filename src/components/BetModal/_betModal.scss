@@ -1,0 +1,201 @@
+@use '../../scss/var.scss' as v;
+
+@mixin desktop {
+    @media screen and (min-width:(v.$cp)) {
+        @content;
+    }
+}
+
+.BtnModal {
+    width: 350px;
+    height: 200px;
+    background-color: lightblue;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 2.5s linear;
+    p {
+        padding: 5px;
+        text-align: center;
+    }
+
+    .betMoneyConatiner {
+        width: 50%;
+        margin: 0 auto;
+        .betBar {
+            text-align: center;
+        }
+
+        .betMoney {
+            width: 100%;
+            margin: 0 auto;
+        }
+    }
+
+    .btnModalConatiner {
+        text-align: center;
+        margin-top: 20px;
+
+    }
+
+    .btnModal {
+        width: 60px;
+        padding: 5px 5px;
+        border-radius: 10px;
+        text-decoration: none;
+        background-color: rgb(252, 125, 76);
+        text-align: center;
+        font-size: 15px;
+        margin: 0 auto;
+    }
+}
+
+.move {
+    width: 150px;
+    height: 80px;
+    background-color: lightblue;
+    position: absolute;
+    transform: translate(25%, -440%);
+
+    .modaltext {
+        display: none;
+    }
+
+    p {
+        padding: 5px;
+        text-align: center;
+    }
+
+    .betMoneyConatiner {
+        display: none;
+        width: 50%;
+        margin: 0 auto;
+
+        .betMoney {
+            width: 100%;
+            margin: 0 auto;
+        }
+    }
+
+    .btnModalConatiner {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btnModal {
+        display: none;
+        width: 60px;
+        padding: 5px 5px;
+        border-radius: 10px;
+        text-decoration: none;
+        background-color: rgb(252, 125, 76);
+        text-align: center;
+        font-size: 15px;
+        margin: 0 auto;
+    }
+}
+
+
+@include desktop {
+    .BtnModal {
+        width: 500px;
+        height: 350px;
+        background-color: lightblue;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 2.5s linear;
+
+        p {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .modaltext {
+            margin-top: 60px;
+        }
+
+        .betMoneyConatiner {
+            width: 50%;
+            margin: 0 auto;
+
+            .betBar {
+                text-align: center;
+            }
+
+        }
+
+        .betMoney {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .btnModalConatiner {
+            text-align: center;
+            margin-top: 20px;
+
+        }
+
+        .btnModal {
+            width: 60px;
+            padding: 5px 5px;
+            border-radius: 10px;
+            text-decoration: none;
+            background-color: rgb(252, 125, 76);
+            text-align: center;
+            font-size: 15px;
+            margin: 0 auto;
+        }
+
+    }
+}
+
+@include desktop {
+    .move {
+        width: 165px;
+        height: 150px;
+        background-color: lightblue;
+        position: absolute;
+        transform: translate(200%, -200%);
+
+        .modaltext {
+            display: none;
+        }
+
+        p {
+            margin: 20px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .betMoneyConatiner {
+            display: none;
+            width: 50%;
+            margin: 0 auto;
+
+            .betMoney {
+                width: 100%;
+                margin: 0 auto;
+            }
+        }
+
+        .btnModalConatiner {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btnModal {
+            display: none;
+            width: 60px;
+            padding: 5px 5px;
+            border-radius: 10px;
+            text-decoration: none;
+            background-color: rgb(252, 125, 76);
+            text-align: center;
+            font-size: 15px;
+            margin: 0 auto;
+        }
+    }
+}
