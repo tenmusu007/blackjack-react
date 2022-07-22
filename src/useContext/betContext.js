@@ -6,7 +6,7 @@ export function useBetContext() {
 
 export function BetProvider({ children }) {
     // const [defaultdata, setData] = useState()
-    const [betMoney, setBetMoney] = useState()
+    const [betMoney, setBetMoney] = useState(0)
     const bet = {
         betMoney, 
         setBetMoney
