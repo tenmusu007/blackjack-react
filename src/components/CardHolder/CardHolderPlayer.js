@@ -11,6 +11,7 @@ import { MiniBetModal } from '../MiniBetModal/MiniBetModal';
 const CardHolder = () => {
     const [items, setItems]=useState([])
     const [showModal, setShowModal] = useState(true)
+    const [isVisible, setIsVisible] = useState(false)
     const [deckId, setdeckID] = useState()
     const [playerAllHands, setPlayerAllHands] = useState(" ")
     const [displayHands, setdisplayHands] = useState()
@@ -51,13 +52,15 @@ const CardHolder = () => {
     }, [])
 
     const handlerShowHnds = () => {
+        if (balance === 0 || betMoney === 0) {
+            alert("You are Loser")
+            return
+        }
         setItems(items.length ? []:[
             {y:-40,delay:100},
         ])
-        if (balance === 0 || betMoney === 0) {
-            return alert("You are Loser")
-        }
         setShowResult(false)
+        setIsVisible(true)
         axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
             .then(data => {
                 player(data.data.cards)
@@ -148,7 +151,8 @@ const CardHolder = () => {
                         hands: data,
                         total: aceTotal
                     })
-                    return [setResult("You are busted"), setBalance(balance - betMoney), setShowResult(!showResult), setModal(!modal)]
+            
+            return [setResult("You are busted"), setBalance(balance - betMoney), setShowResult(!showResult),delayState()]
                 } else {
                     updatePlayerHands(data, aceTotal)
                 }
@@ -157,7 +161,7 @@ const CardHolder = () => {
             const handsTotal = handsTotalCalculate(total)
             updatePlayerHands(data, handsTotal)
             if (handsTotal > 21) {
-                return [setResult("You are busted"), setBalance(balance - betMoney), setShowResult(!showResult), setModal(!modal)]
+                return [setResult("You are busted"), setBalance(balance - betMoney), setShowResult(!showResult), delayState()]
             }
             console.log(handsTotal);
         }
@@ -220,30 +224,28 @@ const CardHolder = () => {
         console.log("comparison working");
         if (playerInfo.total === cpuTotal) {
             setBalance(balance * 1)
-            setModal(!modal)
             setResult("Tie")
             setItems(items.length ? []:[
-                {y:-50,delay:100},
+                {y:-50,delay:2000},
             ])
-
+            delayState()
         } else if (playerInfo.total > cpuTotal || cpuTotal > 21) {
             console.log("result balance ", balance + betMoney * 2);
             setBalance(balance + betMoney * 2)
-            setModal(!modal)
             setResult("Player win")
             setItems(items.length ? []:[
-                {y:-50,delay:100},
+                {y:-50,delay:2000},
             ])
-
+            delayState()
         } else {
             // setBalance(balance)
             console.log("result balance ", balance - betMoney);
             setBalance(balance - betMoney)
-            setModal(!modal)
             setResult("Player Lose")
             setItems(items.length ? []:[
-                {y:-50,delay:100},
+                {y:-50,delay:2000},
             ])
+            delayState()
 
         }
     }
@@ -266,12 +268,20 @@ const CardHolder = () => {
         })
         return handsTotal
     }
-
+    const delayState =()=>{
+        setTimeout(() => {
+            setModal(!modal)
+        }, 2000);
+    }
     return (
         <div className='CardHolder'>
             <MiniBetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setBalance} balance={balance} modal={modal} items={items} setItems={setItems}/>
             <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setBalance} balance={balance} modal={modal} />
-            <div className='playerSection'>
+            {showResult &&
+                <div className='resultModal'>
+                    <p className='resultModaltxt'>{result}</p>
+                </div>}
+            {isVisible &&<div className='playerSection'>
                 <p className='totalNumber'>Total {cpuInfo.total}</p>
                 <div className="cardConatiner">
                     {displayCpuHands}
@@ -286,11 +296,7 @@ const CardHolder = () => {
                     {!showResult && <BtnPlay className={"playBtn"} onClick={handlerDraw} text={"draw"} />}
                     {!showResult && <BtnPlay className={"playBtn"} onClick={handlerStand} text={"stand"} />}
                 </div>
-            </div>
-            {showResult &&
-                <div className='resultModal'>
-                    <p className='resultModaltxt'>{result}</p>
-                </div>}
+            </div>}
             {/* <div className='resultModal'>
                 <p className='resultModaltxt'>test</p>
             </div> */}
