@@ -12,25 +12,10 @@ export const MiniBetModal = (props) => {
             await next({y:item.y, opacity:1., delay: item.delay});
             await next({x: 100,witdh:150, height:80})
         },
-        leave:{x: -100, y:800, opacity:0},
+        leave:{x: -100, y:800, opacity:0, delay:1000},
 
     })
     const {betMoney,setBetMoney} = useBetContext()
-    // const [preMoney, setPreMoney]=useState([])
-    // const [balance, setbalance]=useState(props.balance)
-    // const handlerBetMoney = (event) => {
-    //     // console.log(props.money);
-    //     // console.log(event.target.value);
-    //     setBetMoney(Number(event.target.value))
-    //     const balance = props.money - Number(event.target.value)
-    //     if(event.target.value === "0"){
-    //         props.set(props.money)
-    //         setbalance(props.money)
-    //     }else{
-    //         setbalance(balance)
-    //         setBetMoney(Number(event.target.value))
-    //     }
-    // }
     return (
     <div className='MiniModalContainer'>
             {transtition((style, item)=>
