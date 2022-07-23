@@ -1,0 +1,84 @@
+@use '../../scss/var.scss' as v;
+
+@mixin desktop {
+    @media screen and (min-width:(v.$cp)) {
+        @content;
+    }
+}
+.MiniModalContainer{
+    height: 50px;
+}
+.MiniBtnModal {
+    width: 150px;
+    height: 100px;
+    background-color: white;
+    margin: 0 auto;
+    // margin: 10 auto 0 auto;
+    // position: absolute;
+    // top: 5%;
+    // left: 70%;
+    // transform: translate(-50%, -50%);
+    // transition: all 2.5s linear;
+    p {
+        padding: 5px;
+        text-align: center;
+        color: #143D6D;
+    }
+}
+
+.Minimove {
+    display: none;
+    width: 150px;
+    height: 80px;
+    background-color: lightblue;
+    position: absolute;
+    transform: translate(25%, -440%);
+
+    .modaltext {
+        display: none;
+    }
+
+    p {
+        padding: 5px;
+        text-align: center;
+    }
+}
+
+
+@include desktop {
+    .BtnModal {
+        width: 500px;
+        height: 350px;
+        background-color: lightblue;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        // transform: translate(-50%, -50%);
+        // transition: all 2.5s linear;
+        p {
+            padding: 15px;
+            text-align: center;
+        }
+        .modaltext {
+            margin-top: 60px;
+        }
+    }
+}
+
+@include desktop {
+    .move {
+        width: 165px;
+        height: 150px;
+        background-color: lightblue;
+        position: absolute;
+        // transform: translate(200%, -200%);
+        .modaltext {
+            display: none;
+        }
+        p {
+            margin: 20px;
+            padding: 5px;
+            text-align: center;
+        }
+    }
+}
