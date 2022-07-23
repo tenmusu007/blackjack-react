@@ -4,10 +4,12 @@ import axios from 'axios';
 import { BetModal } from '../BetModal/BetModal';
 import { BtnPlay } from '../BtnPlay';
 import { useBetContext } from '../../useContext/betContext';
+import { useBalanceContext } from '../../useContext/balanceContext';
+import { MiniBetModal } from '../MiniBetModal/MiniBetModal';
 
 
-const CardHolder=()=> {
-    const [notification, setNotification] = useState("not set")
+const CardHolder = () => {
+    const [items, setItems]=useState([])
     const [showModal, setShowModal] = useState(true)
     const [deckId, setdeckID] = useState()
     const [playerAllHands, setPlayerAllHands] = useState(" ")
@@ -34,41 +36,44 @@ const CardHolder=()=> {
     // console.log("Cpu", cpuAllHands);
     // console.log("player",playerAllHands);
 
-    // money/////
-    const [money, setMoeny]=useState(1000)
-    // console.log("money", money);
+    // balance/////
+    const {balance, setBalance} = useBalanceContext()
+    // console.log("balance", balance);
 
     // modal////
-    const [modal ,setModal]=useState(true)
-    const {betMoney,setBetMoney} = useBetContext()
+    const [modal, setModal] = useState(true)
+    const { betMoney, setBetMoney } = useBetContext()
     // console.log("bet", betMoney);
 
     useEffect(() => {
         axios.get(`https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
-            .then(res => {setdeckID(res.data.deck_id)})
+            .then(res => { setdeckID(res.data.deck_id) })
     }, [])
 
-    const handlerShowHnds=()=>{
-        if(money === 0 || betMoney === 0){
+    const handlerShowHnds = () => {
+        setItems(items.length ? []:[
+            {y:-40,delay:100},
+        ])
+        if (balance === 0 || betMoney === 0) {
             return alert("You are Loser")
         }
         setShowResult(false)
         axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
-        .then(data => {
-            player(data.data.cards)
-            axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
-            .then(cpuData => cpu(cpuData.data.cards))
-        })
-        
+            .then(data => {
+                player(data.data.cards)
+                axios.get(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=6`)
+                    .then(cpuData => cpu(cpuData.data.cards))
+            })
+
     }
-    
+
     // set all cards for player
     const addValueToPlayerHands = (obj) => {
         const handsValue = obj.map((card) => {
             if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
                 return { ...card, value: 10 }
             } else if (card.value === "ACE") {
-                return { ...card, value: 11}
+                return { ...card, value: 11 }
             } else {
                 return { ...card, value: Number(card.value) }
             }
@@ -78,20 +83,20 @@ const CardHolder=()=> {
     }
     // set all cards for cpu
     const addValueToCpuHands = (obj) => {
-            const handsValue = obj.map((card) => {
-                if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
-                    return { ...card, value: 10 }
-                } else if (card.value === "ACE") {
-                    return { ...card, value: 1 }
-                } else {
-                    return { ...card, value: Number(card.value) }
-                }
-            })
-            setcpuAllHands(handsValue)
-            return handsValue
+        const handsValue = obj.map((card) => {
+            if (card.value === "JACK" || card.value === "QUEEN" || card.value === "KING") {
+                return { ...card, value: 10 }
+            } else if (card.value === "ACE") {
+                return { ...card, value: 1 }
+            } else {
+                return { ...card, value: Number(card.value) }
+            }
+        })
+        setcpuAllHands(handsValue)
+        return handsValue
     }
     // showing firts player cards
-    const player =(obj)=>{
+    const player = (obj) => {
         let keepCards = []
         const playerArr = addValueToPlayerHands(obj)
         const selectFirstHands = () => {
@@ -111,54 +116,53 @@ const CardHolder=()=> {
     // showing first cpu cards
     const cpu = (obj) => {
         const cpuArr = addValueToCpuHands(obj)
-        setNotification("all set")
         setShowModal(!showModal)
         setModal(!modal)
         let keepCpuCards = [cpuArr[0]]
         // console.log("first cpu", keepCpuCards);
         const addCardToHands = (cards) => {
             setdisplayCpuHands(renderHands(cards))
-            caculateCpuTotal(keepCpuCards)                    
+            caculateCpuTotal(keepCpuCards)
         }
         addCardToHands(keepCpuCards)
     }
-// when plauer clicked darw Btn
+    // when plauer clicked darw Btn
     const handlerDraw = () => {
         console.log(playerInfo.hands);
         const hands = [...playerInfo.hands, playerAllHands[playerInfo.hands.length]]
         caculateTotal(hands)
         setdisplayHands(renderHands(hands))
     }
-// caculateTing total for player
+    // caculateTing total for player
     const caculateTotal = (data) => {
         const total = data.map((element) => {
             return element.value
         })
-        if(total.includes(11)){
+        if (total.includes(11)) {
             const handsTotal = handsTotalCalculate(total)
-            updatePlayerHands(data,handsTotal)
-            if (handsTotal> 21) {
-                const aceTotal =handsTotal-10
-                if(aceTotal >21){
+            updatePlayerHands(data, handsTotal)
+            if (handsTotal > 21) {
+                const aceTotal = handsTotal - 10
+                if (aceTotal > 21) {
                     setplayerInfo({
                         hands: data,
                         total: aceTotal
                     })
-                    return [setResult("You are busted"), setMoeny(money - betMoney), setShowResult(!showResult), setModal(!modal)]
-                }else{
-                updatePlayerHands(data,aceTotal)
+                    return [setResult("You are busted"), setBalance(balance - betMoney), setShowResult(!showResult), setModal(!modal)]
+                } else {
+                    updatePlayerHands(data, aceTotal)
                 }
             }
-        }else{
+        } else {
             const handsTotal = handsTotalCalculate(total)
-            updatePlayerHands(data,handsTotal)
+            updatePlayerHands(data, handsTotal)
             if (handsTotal > 21) {
-            return [setResult("You are busted"), setMoeny(money - betMoney), setShowResult(!showResult), setModal(!modal)]
+                return [setResult("You are busted"), setBalance(balance - betMoney), setShowResult(!showResult), setModal(!modal)]
             }
             console.log(handsTotal);
         }
     }
-// caculateTing total for player
+    // caculateTing total for player
     const caculateCpuTotal = (data) => {
         // console.log(data);
         const total = data.map((element) => {
@@ -168,15 +172,15 @@ const CardHolder=()=> {
             return a + b
         })
         // if (cpuInfo.hands.length === 0) {
-            // console.log("test");
-            setCpuInfo({
-                hands: data,
-                total: handsTotal
-            })
+        // console.log("test");
+        setCpuInfo({
+            hands: data,
+            total: handsTotal
+        })
         // }
     }
-// when player clicked stand Btn
-    const handlerStand =()=> {
+    // when player clicked stand Btn
+    const handlerStand = () => {
         const keepHands = cpuInfo.hands
         const currentTotal = cpuInfo.total
         for (let i = 1; currentTotal < 17; i++) {
@@ -215,23 +219,35 @@ const CardHolder=()=> {
         setShowResult(!showResult)
         console.log("comparison working");
         if (playerInfo.total === cpuTotal) {
-            setMoeny(money*1)
+            setBalance(balance * 1)
             setModal(!modal)
             setResult("Tie")
+            setItems(items.length ? []:[
+                {y:-50,delay:100},
+            ])
+
         } else if (playerInfo.total > cpuTotal || cpuTotal > 21) {
-            console.log("result money ",money + betMoney*2);
-            setMoeny(money + betMoney*2)
+            console.log("result balance ", balance + betMoney * 2);
+            setBalance(balance + betMoney * 2)
             setModal(!modal)
             setResult("Player win")
+            setItems(items.length ? []:[
+                {y:-50,delay:100},
+            ])
+
         } else {
-            // setMoeny(money)
-            console.log("result money ",money - betMoney);
-            setMoeny(money - betMoney)
+            // setBalance(balance)
+            console.log("result balance ", balance - betMoney);
+            setBalance(balance - betMoney)
             setModal(!modal)
             setResult("Player Lose")
+            setItems(items.length ? []:[
+                {y:-50,delay:100},
+            ])
+
         }
     }
-    const updatePlayerHands =(data,handsAceTotal)=>{
+    const updatePlayerHands = (data, handsAceTotal) => {
         if (playerInfo.hands.length === 0) {
             setplayerInfo({
                 hands: data,
@@ -244,7 +260,7 @@ const CardHolder=()=> {
             })
         }
     }
-    const handsTotalCalculate =(total)=>{
+    const handsTotalCalculate = (total) => {
         const handsTotal = total.reduce((a, b) => {
             return a + b
         })
@@ -253,7 +269,8 @@ const CardHolder=()=> {
 
     return (
         <div className='CardHolder'>
-            <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setMoeny} money={money} modal={modal}/>
+            <MiniBetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setBalance} balance={balance} modal={modal} items={items} setItems={setItems}/>
+            <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setBalance} balance={balance} modal={modal} />
             <div className='playerSection'>
                 <p className='totalNumber'>Total {cpuInfo.total}</p>
                 <div className="cardConatiner">
@@ -266,8 +283,8 @@ const CardHolder=()=> {
                 <div className='btnConatiner'>
                     {/* <div className='playBtn' onClick={handlerShowHnds}>set</div> */}
                     {/* <BtnPlay className={"playBtn"} onClick={handlerShowHnds} text={"set"}/> */}
-                    {!showResult &&<BtnPlay className={"playBtn"} onClick={handlerDraw} text={"draw"}/>}
-                    {!showResult &&<BtnPlay className={"playBtn"} onClick={handlerStand} text={"stand"}/>}
+                    {!showResult && <BtnPlay className={"playBtn"} onClick={handlerDraw} text={"draw"} />}
+                    {!showResult && <BtnPlay className={"playBtn"} onClick={handlerStand} text={"stand"} />}
                 </div>
             </div>
             {showResult &&
