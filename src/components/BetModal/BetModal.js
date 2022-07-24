@@ -31,7 +31,20 @@ export const BetModal = (props) => {
             <p>Bet : {betMoney}</p>
             <div className='betMoneyConatiner'>
                 <form className='betBar' onChange={handlerBetMoney}>
-                    <input  type="range" min="1" max={props.balance}  />
+                    {/* <input  type="number" min="1" max="5"  /> */}
+                    {/* {props.balance((value)=>{
+                        // let betValue = va
+                        return(
+                            <option value="" key=""></option>
+                        )
+                    })} */}
+                    <select>
+                            <option value="0" key="0">0</option>
+                            <option value="100" key="100">100</option>
+                            <option value="200" key="200">200</option>
+                            <option value="500" key="500">500</option>
+                            <option value={props.balance} key={props.balance} >{props.balance}</option>
+                    </select>
                 </form>
             </div>
             <div className='btnModalConatiner'>
