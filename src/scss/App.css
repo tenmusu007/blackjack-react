@@ -32,6 +32,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
+  margin: 10px auto 0 auto;
 }
 .CardHolder .playerSection .cardConatiner .cardImg {
   width: 65px;
@@ -64,6 +65,65 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media screen and (min-width: 1024px) {
+  .CardHolder .playBtn {
+    width: 60px;
+    padding: 5px 5px;
+    border-radius: 10px;
+    text-decoration: none;
+    background-color: rgb(252, 125, 76);
+    text-align: center;
+    font-size: 15px;
+    margin: 10px;
+  }
+  .CardHolder .playerSection {
+    margin-top: 100px;
+  }
+  .CardHolder .playerSection .totalNumber {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+  }
+  .CardHolder .playerSection .cardConatiner {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  .CardHolder .playerSection .cardConatiner .cardImg {
+    width: 130px;
+    height: 175px;
+  }
+  .CardHolder .playerSection .btnConatiner {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  .CardHolder .playerSection .btnConatiner .playBtn {
+    width: 60px;
+    padding: 5px 5px;
+    border-radius: 10px;
+    text-decoration: none;
+    background-color: rgb(252, 125, 76);
+    text-align: center;
+    font-size: 15px;
+    margin: 10px;
+  }
+  .CardHolder .resultModal {
+    width: 45%;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 100px;
+    text-align: center;
+    font-style: italic;
+    background-color: #F6F6E9;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 header .HeaderContainer {
@@ -135,6 +195,92 @@ header .active1 p {
   font-weight: bold;
   margin: 20px;
 }
+header .desktopMenu {
+  display: none;
+}
+
+@media screen and (min-width: 1024px) {
+  header .HeaderContainer {
+    background-color: #D0D2E4;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+  }
+  header .menuIcon {
+    height: 30px;
+    display: flex;
+    justify-content: flex-end;
+    display: none;
+  }
+  header .sideMenu {
+    position: fixed;
+    top: 30px;
+    height: 100vh;
+    width: 50%;
+    background-color: #D0D2E4;
+    opacity: 85%;
+    right: 0;
+    transform: translateX(100%);
+    transition: all 0.5s ease;
+  }
+  header .sideMenu p {
+    font-weight: bold;
+    margin: 20px;
+  }
+  header .active {
+    height: 100vh;
+    width: 50%;
+    background-color: #D0D2E4;
+    opacity: 85%;
+    position: absolute;
+    right: 0;
+    transform: none;
+    z-index: 3;
+  }
+  header .active p {
+    font-weight: bold;
+    margin: 20px;
+  }
+  header .sideMenu1 {
+    position: fixed;
+    top: 30px;
+    height: 100vh;
+    width: 100%;
+    background-color: none;
+    opacity: 85%;
+    right: 0;
+    transform: translateX(100%);
+    transition: all 0.5s ease;
+  }
+  header .sideMenu1 p {
+    font-weight: bold;
+    margin: 20px;
+  }
+  header .active1 {
+    height: 100vh;
+    width: 100%;
+    background-color: none;
+    opacity: 85%;
+    position: absolute;
+    right: 0;
+    transform: none;
+    z-index: 2;
+  }
+  header .active1 p {
+    font-weight: bold;
+    margin: 20px;
+  }
+  header .desktopMenu {
+    display: flex;
+  }
+  header .desktopMenu p {
+    padding: 10px 30px 10px 0;
+  }
+  header .desktopMenu p:hover {
+    -webkit-text-decoration: underline black;
+            text-decoration: underline black;
+  }
+}
 
 .BtnModal {
   width: 350px;
@@ -144,7 +290,7 @@ header .active1 p {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: all 2s linear;
+  transition: all 2.5s linear;
 }
 .BtnModal p {
   padding: 5px;
@@ -181,7 +327,8 @@ header .active1 p {
   height: 80px;
   background-color: lightblue;
   position: absolute;
-  transform: translate(15%, -400%);
+  transform: translate(25%, -440%);
+  display: none;
 }
 .move .modaltext {
   display: none;
@@ -215,88 +362,156 @@ header .active1 p {
   margin: 0 auto;
 }
 
-.BtnModal {
-  width: 500px;
-  height: 350px;
+@media screen and (min-width: 1024px) {
+  .BtnModal {
+    width: 500px;
+    height: 350px;
+    background-color: lightblue;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 2.5s linear;
+  }
+  .BtnModal p {
+    padding: 15px;
+    text-align: center;
+  }
+  .BtnModal .modaltext {
+    margin-top: 60px;
+  }
+  .BtnModal .betMoneyConatiner {
+    width: 50%;
+    margin: 0 auto;
+  }
+  .BtnModal .betMoneyConatiner .betBar {
+    text-align: center;
+  }
+  .BtnModal .betMoney {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .BtnModal .btnModalConatiner {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .BtnModal .btnModal {
+    width: 60px;
+    padding: 5px 5px;
+    border-radius: 10px;
+    text-decoration: none;
+    background-color: rgb(252, 125, 76);
+    text-align: center;
+    font-size: 15px;
+    margin: 0 auto;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .move {
+    width: 165px;
+    height: 150px;
+    background-color: lightblue;
+    position: absolute;
+    transform: translate(200%, -200%);
+  }
+  .move .modaltext {
+    display: none;
+  }
+  .move p {
+    margin: 20px;
+    padding: 5px;
+    text-align: center;
+  }
+  .move .betMoneyConatiner {
+    display: none;
+    width: 50%;
+    margin: 0 auto;
+  }
+  .move .betMoneyConatiner .betMoney {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .move .btnModalConatiner {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .move .btnModal {
+    display: none;
+    width: 60px;
+    padding: 5px 5px;
+    border-radius: 10px;
+    text-decoration: none;
+    background-color: rgb(252, 125, 76);
+    text-align: center;
+    font-size: 15px;
+    margin: 0 auto;
+  }
+}
+.MiniBtnModal {
+  width: 150px;
+  height: 100px;
   background-color: lightblue;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 2s linear;
+  top: 5%;
+  left: 70%;
 }
-.BtnModal p {
-  padding: 15px;
+.MiniBtnModal p {
+  padding: 5px;
   text-align: center;
-}
-.BtnModal .modaltext {
-  margin-top: 60px;
-}
-.BtnModal .betMoneyConatiner {
-  width: 50%;
-  margin: 0 auto;
-}
-.BtnModal .betMoneyConatiner .betBar {
-  text-align: center;
-}
-.BtnModal .betMoneyConatiner .betMoney {
-  width: 100%;
-  margin: 0 auto;
-}
-.BtnModal .btnModalConatiner {
-  text-align: center;
-  margin-top: 20px;
-}
-.BtnModal .btnModal {
-  width: 60px;
-  padding: 5px 5px;
-  border-radius: 10px;
-  text-decoration: none;
-  background-color: rgb(252, 125, 76);
-  text-align: center;
-  font-size: 15px;
-  margin: 0 auto;
 }
 
-.move {
+.Minimove {
+  display: none;
   width: 150px;
   height: 80px;
   background-color: lightblue;
   position: absolute;
-  transform: translate(200%, -200%);
+  transform: translate(25%, -440%);
 }
-.move .modaltext {
+.Minimove .modaltext {
   display: none;
 }
-.move p {
+.Minimove p {
   padding: 5px;
   text-align: center;
 }
-.move .betMoneyConatiner {
-  display: none;
-  width: 50%;
-  margin: 0 auto;
-}
-.move .betMoneyConatiner .betMoney {
-  width: 100%;
-  margin: 0 auto;
-}
-.move .btnModalConatiner {
-  text-align: center;
-  margin-top: 20px;
-}
-.move .btnModal {
-  display: none;
-  width: 60px;
-  padding: 5px 5px;
-  border-radius: 10px;
-  text-decoration: none;
-  background-color: rgb(252, 125, 76);
-  text-align: center;
-  font-size: 15px;
-  margin: 0 auto;
-}
 
+@media screen and (min-width: 1024px) {
+  .BtnModal {
+    width: 500px;
+    height: 350px;
+    background-color: lightblue;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 2.5s linear;
+  }
+  .BtnModal p {
+    padding: 15px;
+    text-align: center;
+  }
+  .BtnModal .modaltext {
+    margin-top: 60px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .move {
+    width: 165px;
+    height: 150px;
+    background-color: lightblue;
+    position: absolute;
+    transform: translate(200%, -200%);
+  }
+  .move .modaltext {
+    display: none;
+  }
+  .move p {
+    margin: 20px;
+    padding: 5px;
+    text-align: center;
+  }
+}
 .homeContainer .title {
   text-align: center;
   margin-top: 200px;
@@ -330,5 +545,23 @@ body {
 
 h1 {
   color: white;
+}
+
+button {
+  padding: 4px;
+  margin: 20px;
+}
+
+.conatiner {
+  padding: 40px;
+  margin-top: 200px;
+  min-height: 200px;
+}
+
+.item {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  background-color: white;
 }
 /*# sourceMappingURL=App.css.map */

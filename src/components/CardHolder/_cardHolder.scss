@@ -16,14 +16,14 @@
         margin: 10px;
     }
     .playerSection {
-        margin-top: 100px;
+        margin-top: 50px;
         .totalNumber {
             color: white;
             font-size: 20px;
             text-align: center;
         }
         .cardConatiner {
-            width: 50%;
+            width: 75%;
             display: flex;
             justify-content: space-between;
             margin-top: 30px;
@@ -31,6 +31,8 @@
             .cardImg {
                 width: 65px;
                 height: 90px;
+                transition-duration: 5s;
+                transition-delay: 2s;
             }
         }
         .btnConatiner {
