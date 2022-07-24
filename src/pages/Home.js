@@ -1,6 +1,6 @@
 import React from 'react'
-import Btn from '../components/Btn'
-import { Header } from '../components/Header'
+import Btn from '../components/Btn/Btn'
+import { Header } from '../components/Header/Header'
 
 const Home = () => {
   return (

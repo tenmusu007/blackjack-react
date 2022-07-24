@@ -1,8 +1,12 @@
-@use './components/btn.scss';
-@use './components/cardHolder.scss';
-@use './components/header.scss';
-@use './components/betModal.scss';
+@use '../components/Btn/btn.scss';
+@use '../components//CardHolder/cardHolder.scss';
+@use '../components/Header/header.scss';
+@use '../components/BetModal/betModal.scss';
+@use '../components/MiniBetModal/miniBetModal.scss';
 @use './page/home.scss';
+@use './var.scss';
+
+
 *{
   padding: 0;
   margin: 0;
@@ -17,4 +21,19 @@ body{
 }
 h1{
   color: white;
+}
+button{
+  padding: 4px;
+  margin: 20px;
+}
+.conatiner{
+padding:40px ;
+margin-top: 200px;
+min-height: 200px;
+}
+.item{
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  background-color: white;
 }
