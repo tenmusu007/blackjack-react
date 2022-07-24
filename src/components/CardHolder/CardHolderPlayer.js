@@ -163,7 +163,6 @@ const CardHolder = () => {
             if (handsTotal > 21) {
                 return [setResult("You are busted"), setBalance(balance - betMoney), setShowResult(!showResult), delayState()]
             }
-            console.log(handsTotal);
         }
     }
     // caculateTing total for player
@@ -191,7 +190,6 @@ const CardHolder = () => {
             keepHands.push(cpuAllHands[i])
             setdisplayCpuHands(renderHands(keepHands))
             const valueArr = keepHands.map((value) => {
-                // console.log(value);
                 return value.value
             })
             const total = valueArr.reduce((a, b) => {
@@ -210,7 +208,6 @@ const CardHolder = () => {
     // common part////
     const renderHands = (cards) => {
         const html = cards.map((value, index) => {
-            // console.log("map", value);
             return (
                 <div key={index} >
                     <img src={value.image} alt="" className='cardImg' />
@@ -221,7 +218,6 @@ const CardHolder = () => {
     }
     const comapreTotal = (cpuTotal) => {
         setShowResult(!showResult)
-        console.log("comparison working");
         if (playerInfo.total === cpuTotal) {
             setBalance(balance * 1)
             setResult("Tie")
@@ -238,8 +234,6 @@ const CardHolder = () => {
             ])
             delayState()
         } else {
-            // setBalance(balance)
-            console.log("result balance ", balance - betMoney);
             setBalance(balance - betMoney)
             setResult("Player Lose")
             setItems(items.length ? []:[
@@ -271,7 +265,7 @@ const CardHolder = () => {
     const delayState =()=>{
         setTimeout(() => {
             setModal(!modal)
-        }, 2000);
+        }, 3000);
     }
     return (
         <div className='CardHolder'>
@@ -291,15 +285,10 @@ const CardHolder = () => {
                     {displayHands}
                 </div>
                 <div className='btnConatiner'>
-                    {/* <div className='playBtn' onClick={handlerShowHnds}>set</div> */}
-                    {/* <BtnPlay className={"playBtn"} onClick={handlerShowHnds} text={"set"}/> */}
                     {!showResult && <BtnPlay className={"playBtn"} onClick={handlerDraw} text={"draw"} />}
                     {!showResult && <BtnPlay className={"playBtn"} onClick={handlerStand} text={"stand"} />}
                 </div>
             </div>}
-            {/* <div className='resultModal'>
-                <p className='resultModaltxt'>test</p>
-            </div> */}
         </div>
     )
 }
