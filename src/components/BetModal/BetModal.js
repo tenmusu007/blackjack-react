@@ -9,16 +9,25 @@ export const BetModal = (props) => {
     const {balance, setBalance} = useBalanceContext()
     const {betMoney,setBetMoney} = useBetContext()
     const [preMoney, setPreMoney]=useState([])
-    const [preBalance, setPreBalance]=useState(props.balance)
+    const [preBalance, setPreBalance]=useState(balance)
     const handlerBetMoney = (event) => {
         // console.log(props.money);
         // console.log(event.target.value);
+
         setBetMoney(Number(event.target.value))
-        const balanceTotal = props.balance - Number(event.target.value)
+        const balanceTotal =balance - Number(event.target.value)
         if(event.target.value === "0"){
-            props.set(balance)
-            setPreBalance(props.balance)
+            setBalance(balance)
+            setPreBalance(balance)
         }else{
+            props.setPinfo({
+                hands: [],
+                total: 0,
+            })
+            props.setCinfo({
+                hands: [],
+                total: 0,
+            })
             setPreBalance(balanceTotal)
             // props.set(balanceTotal)
             setBetMoney(Number(event.target.value))
@@ -31,20 +40,7 @@ export const BetModal = (props) => {
             <p>Bet : {betMoney}</p>
             <div className='betMoneyConatiner'>
                 <form className='betBar' onChange={handlerBetMoney}>
-                    {/* <input  type="number" min="1" max="5"  /> */}
-                    {/* {props.balance((value)=>{
-                        // let betValue = va
-                        return(
-                            <option value="" key=""></option>
-                        )
-                    })} */}
-                    <select>
-                            <option value="0" key="0">0</option>
-                            <option value="100" key="100">100</option>
-                            <option value="200" key="200">200</option>
-                            <option value="500" key="500">500</option>
-                            <option value={props.balance} key={props.balance} >{props.balance}</option>
-                    </select>
+                    <input  type="range" min="0" max={balance} step="100" />
                 </form>
             </div>
             <div className='btnModalConatiner'>
