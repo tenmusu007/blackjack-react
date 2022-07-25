@@ -52,6 +52,19 @@ const CardHolder = () => {
     }, [])
 
     const handlerShowHnds = () => {
+        setPlayerAllHands("")
+        setplayerInfo(
+            {
+                hands: [],
+                total: 0,
+            }
+        )
+            setCpuInfo(
+                {
+                    hands: [],
+                    total: 0,
+                }
+            )
         if (balance === 0 || betMoney === 0) {
             alert("You are Loser")
             return
@@ -131,7 +144,6 @@ const CardHolder = () => {
     }
     // when plauer clicked darw Btn
     const handlerDraw = () => {
-        console.log(playerInfo.hands);
         const hands = [...playerInfo.hands, playerAllHands[playerInfo.hands.length]]
         caculateTotal(hands)
         setdisplayHands(renderHands(hands))
@@ -167,20 +179,18 @@ const CardHolder = () => {
     }
     // caculateTing total for player
     const caculateCpuTotal = (data) => {
-        // console.log(data);
+
         const total = data.map((element) => {
             return element.value
         })
         const handsTotal = total.reduce((a, b) => {
             return a + b
         })
-        // if (cpuInfo.hands.length === 0) {
-        // console.log("test");
         setCpuInfo({
             hands: data,
             total: handsTotal
         })
-        // }
+
     }
     // when player clicked stand Btn
     const handlerStand = () => {
@@ -226,7 +236,6 @@ const CardHolder = () => {
             ])
             delayState()
         } else if (playerInfo.total > cpuTotal || cpuTotal > 21) {
-            console.log("result balance ", balance + betMoney * 2);
             setBalance(balance + betMoney * 2)
             setResult("Player win")
             setItems(items.length ? []:[
@@ -240,7 +249,6 @@ const CardHolder = () => {
                 {y:-50,delay:2000},
             ])
             delayState()
-
         }
     }
     const updatePlayerHands = (data, handsAceTotal) => {
@@ -270,7 +278,7 @@ const CardHolder = () => {
     return (
         <div className='CardHolder'>
             <MiniBetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setBalance} balance={balance} modal={modal} items={items} setItems={setItems}/>
-            <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"} set={setBalance} balance={balance} modal={modal} />
+            <BetModal onClick={handlerShowHnds} text={"set"} className={"playBtn"}  balance={balance} modal={modal} pInfo={playerInfo} setPinfo={setplayerInfo} cInfo={cpuInfo} setCinfo={setCpuInfo} />
             {showResult &&
                 <div className='resultModal'>
                     <p className='resultModaltxt'>{result}</p>
