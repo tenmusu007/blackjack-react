@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import { BtnPlay } from '../BtnPlay'
 import { useBetContext } from '../../useContext/betContext';
 import { useTransition, animated} from 'react-spring'
 

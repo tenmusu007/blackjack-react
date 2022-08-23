@@ -6,7 +6,7 @@ import { Header } from '../components/Header/Header'
 function PlayField() {
     return (
         <div className='playFieldContainer'>
-            <Header/>
+            {/* <Header/> */}
             <Btn text={"back"} to="/" />
             <CardHolderPlayer/>
         </div>
